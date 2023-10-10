@@ -2,9 +2,9 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-public class CookieClicker extends JFrame {
+public class GoldClicker extends JFrame {
     // non graphical variables
-    private long cookies = 999999999;
+    private long gold = 999999999;
     private int clicker = 1;
     private int clickerPrice = 20;
 
@@ -13,41 +13,41 @@ public class CookieClicker extends JFrame {
 
     Container container;
 
-    JLabel cookieLabel;
-    JButton increaseCookiesButton;
+    JLabel goldLabel;
+    JButton increaseGoldButton;
 
     JLabel clickerLabel;
     JButton increaseClickerButton;
 
     // buildings
-    Building bakery;
-    boolean bakeryUnlocked;
+    Building forge;
+    boolean forgeUnlocked;
 
-    Building robot;
-    boolean robotUnlocked;
+    Building goldpaner;
+    boolean goldpanerUnlocked;
 
-    Building factory;
-    boolean factoryUnlocked;
+    Building goldmine;
+    boolean goldmineUnlocked;
 
-    public CookieClicker() {
+    public GoldClicker() {
         container = getContentPane();
         container.setLayout(new GridLayout(5, 1));
 
-        bakery = new Building("Bakery", 0, 1, 20);
-        bakeryUnlocked = false;
+        bakery = new Building("Forge", 0, 1, 20);
+        forgeUnlocked = false;
 
-        robot = new Building("Robot", 0, 5, 100);
-        robotUnlocked = false;
+        robot = new Building("Goldpaner", 0, 5, 100);
+        goldpanerUnlocked = false;
 
-        factory = new Building("Factory", 0, 10, 200);
-        factoryUnlocked = false;
+        factory = new Building("Goldmine", 0, 10, 200);
+        goldmineUnlocked = false;
 
         // produce cookies by hand
-        cookieLabel = new JLabel("Cookies: " + cookies);
-        increaseCookiesButton = new JButton("Increase Cookies");
-        increaseCookiesButton.addActionListener(new ActionListener() {
+        GoldLabel = new JLabel("Gold Bar: " + Gold);
+        increaseGoldButton = new JButton("Increase Gold");
+        increaseGoldButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cookies += clicker;
+                gold += clicker;
             }
         });
 
@@ -60,13 +60,13 @@ public class CookieClicker extends JFrame {
             }
 
             private void increaseClicker() {
-                if(cookies >= clickerPrice) {
+                if(gold >= clickerPrice) {
                     clicker++;
-                    cookies -= clickerPrice;
+                    gold -= clickerPrice;
                     clickerPrice *= 2;
                     JOptionPane.showMessageDialog(null, "You have improved your clicker!");
                 } else {
-                    JOptionPane.showMessageDialog(null, "You have not enough money!");
+                    JOptionPane.showMessageDialog(null, "You don't have enough money!");
                 }
             }
         });
@@ -74,7 +74,7 @@ public class CookieClicker extends JFrame {
         java.util.Timer actualizeProgress = new java.util.Timer();
         actualizeProgress.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                cookieLabel.setText("Cookies: " + cookies);
+                goldLabel.setText("Gold: " + gold);
                 clickerLabel.setText("Clicker Level: " + clicker);
                 increaseClickerButton.setText("Improve Clicker (Costs: " + clickerPrice + ")");
             }
@@ -83,17 +83,17 @@ public class CookieClicker extends JFrame {
         java.util.Timer getMoreBuildings = new java.util.Timer(); 
         getMoreBuildings.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                if (bakeryUnlocked == false && clicker >= 2) {
-                    bakery.unlock();
-                    bakeryUnlocked = true;
+                if (forgeUnlocked == false && clicker >= 2) {
+                    forge.unlock();
+                    forgeUnlocked = true;
                 }
-                if (robotUnlocked == false && bakery.getLevel() >= 2) {
-                    robot.unlock();
-                    robotUnlocked = true;
+                if (goldpanerUnlocked == false && forge.getLevel() >= 2) {
+                    goldpaner.unlock();
+                    goldpanerUnlocked = true;
                 }         
-                if (factoryUnlocked == false && robot.getLevel() >= 2) {
-                    factory.unlock();
-                    factoryUnlocked = true;
+                if (goldmineUnlocked == false && goldpaner.getLevel() >= 2) {
+                    goldmine.unlock();
+                    goldmineUnlocked = true;
                 }
             }
         }, 0, 2000);
@@ -101,12 +101,12 @@ public class CookieClicker extends JFrame {
         java.util.Timer produceWithBuildings = new java.util.Timer();
         produceWithBuildings.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                cookies += bakery.getProductionRate() + robot.getProductionRate() + factory.getProductionRate();
+                gold += bakery.getProductionRate() + goldpaner.getProductionRate() + goldmine.getProductionRate();
             }
         }, 0, 1000);
 
-        container.add(cookieLabel);
-        container.add(increaseCookiesButton);
+        container.add(goldLabel);
+        container.add(increaseGoldButton);
         container.add(new JLabel("")); // blank label
         container.add(clickerLabel);
         container.add(increaseClickerButton);
@@ -156,13 +156,13 @@ public class CookieClicker extends JFrame {
         }
 
         public void improve() {
-            if(cookies >= costs) {
+            if(gold >= costs) {
                 level++;
-                cookies -= costs;
+                gold -= costs;
                 costs *= 2;
                 JOptionPane.showMessageDialog(null, "You have improved the " + name + "!");
             } else {
-                JOptionPane.showMessageDialog(null, "You have not enough money!");
+                JOptionPane.showMessageDialog(null, "You don't have enough money!");
             }
             actualize();
         }
@@ -178,10 +178,10 @@ public class CookieClicker extends JFrame {
     }
 
     public static void main(String[] args) {
-        CookieClicker cookieClicker = new CookieClicker();
-        cookieClicker.setTitle("Cookie Clicker");
-        cookieClicker.setSize(99999, 99999);
-        cookieClicker.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        cookieClicker.setVisible(true);
+        GoldClicker goldClicker = new GoldClicker();
+        goldClicker.setTitle("Gold Clicker");
+        goldClicker.setSize(99999, 99999);
+        goldClicker.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        goldClicker.setVisible(true);
     }
 }
